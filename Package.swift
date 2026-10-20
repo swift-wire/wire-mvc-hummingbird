@@ -31,7 +31,7 @@ let settings: [SwiftSetting] = [
 
 let package = Package(
     name: "wire-mvc-hummingbird",
-    platforms: [.macOS(.v26)],
+    platforms: [.macOS(.v27)],
     products: [
         .library(name: "WireMVCHummingbird", targets: ["WireMVCHummingbird"])
     ],
