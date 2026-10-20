@@ -31,7 +31,7 @@ let settings: [SwiftSetting] = [
 
 let package = Package(
     name: "wire-mvc-hummingbird",
-    platforms: [.macOS(.v26)],
+    platforms: [.macOS(.v27)],
     products: [
         .library(name: "WireMVCHummingbird", targets: ["WireMVCHummingbird"])
     ],
@@ -40,7 +40,13 @@ let package = Package(
         .package(url: "https://github.com/hummingbird-project/hummingbird.git", from: "2.0.0"),
         .package(url: "https://github.com/apple/swift-http-api-proposal.git", .upToNextMinor(from: "0.2.0")),
         .package(url: "https://github.com/apple/swift-http-types.git", from: "1.6.0"),
-        .package(url: "https://github.com/apple/swift-collections.git", from: "1.6.0"),
+        // Held below 1.7: swift-collections 1.7 marks the container APIs swift-async-algorithms 1.1.5's
+        // `AsyncStreaming` uses (`RangeReplaceableContainer`, `append(moving:from:)`) as macOS 27-only, so
+        // 1.1.5 no longer compiles against it. async-algorithms 1.1.6 fixes that, but the 0.2.x proposal
+        // pins 1.1.5 exactly (as this package does below). Package.resolved is not tracked here, so the
+        // bound has to be in the manifest. Lift it when the proposal moves to a line that admits 1.1.6 or
+        // later.
+        .package(url: "https://github.com/apple/swift-collections.git", "1.6.0"..<"1.7.0"),
         .package(
             url: "https://github.com/apple/swift-async-algorithms.git",
             exact: "1.1.5",
